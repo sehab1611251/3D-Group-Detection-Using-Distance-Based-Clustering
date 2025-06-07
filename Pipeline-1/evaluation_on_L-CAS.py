@@ -32,7 +32,7 @@ def parse_args():
 
 
 # 3D Pedestrian Centroid Matching
-def parse_pred_centroids_simple(filepath):
+def pred_pedestrian_groups(filepath):
     df = pd.read_csv(filepath, header=None)
     df.columns = [
         "frame", "id", "x_center", "y_center", "z_center",
@@ -50,7 +50,7 @@ def parse_pred_centroids_simple(filepath):
     return pred
 
 
-def parse_gt_centroids_simple(gt_dir):
+def gt_pedestrian_groups(gt_dir):
     gt = {}
     for fname in sorted(os.listdir(gt_dir)):
         if not fname.endswith(".txt"):
@@ -70,7 +70,7 @@ def parse_gt_centroids_simple(gt_dir):
     return gt
 
 
-def evaluate_greedy_centroid(pred, gt, thresh):
+def evaluate_pedestrian_centroid(pred, gt, thresh):
     TP = FP = FN = 0
     for frame, gt_cents in gt.items():
         pred_cents = pred.get(frame, [])
@@ -101,9 +101,8 @@ def evaluate_greedy_centroid(pred, gt, thresh):
             "F1": round(f1, 4)}
 
 
-
 # 3D Bounding‐Box Centroid Matching
-def parse_pred_centroids_bbox(filepath):
+def pred_centroids_bbox(filepath):
     df = pd.read_csv(filepath, header=None)
     df.columns = [
         "frame", "id", "x_center", "y_center", "z_center",
@@ -129,7 +128,7 @@ def parse_pred_centroids_bbox(filepath):
     return pred
 
 
-def parse_gt_centroids_bbox(gt_dir):
+def gt_centroids_bbox(gt_dir):
     gt = {}
     for fname in sorted(os.listdir(gt_dir)):
         if not fname.endswith(".txt"):
@@ -151,8 +150,7 @@ def parse_gt_centroids_bbox(gt_dir):
 
 
 def evaluate_greedy_bbox(pred, gt, thresh):
-    return evaluate_greedy_centroid(pred, gt, thresh)
-
+    return evaluate_pedestrian_centroid(pred, gt, thresh)
 
 
 # Hungarian Matching on 3D BBox Centroids
@@ -193,28 +191,26 @@ def evaluate_hungarian(pred, gt, thresh):
             "F1": round(f1, 4)}
 
 
-
 # Main: run all three methods
 def main():
     args = parse_args()
 
     print("1) 3D Pedestrian centroid-based evaluation")
-    pred_c = parse_pred_centroids_simple(args.pred_file)
-    gt_c = parse_gt_centroids_simple(args.gt_dir)
-    res_c = evaluate_greedy_centroid(pred_c, gt_c, args.threshold)
-    print(f"Results: {res_c}\n")
+    pred_pedestrian = pred_pedestrian_groups(args.pred_file)
+    gt_pedestrian = gt_pedestrian_groups(args.gt_dir)
+    res_pedestrian = evaluate_pedestrian_centroid(pred_pedestrian, gt_pedestrian, args.threshold)
+    print(f"Results: {res_pedestrian}\n")
 
     print("2) 3D bounding‐box centroid-based evaluation")
-    pred_b = parse_pred_centroids_bbox(args.pred_file)
-    gt_b = parse_gt_centroids_bbox(args.gt_dir)
-    res_b = evaluate_greedy_bbox(pred_b, gt_b, args.threshold)
-    print(f"Results: {res_b}\n")
+    pred_bbox = pred_centroids_bbox(args.pred_file)
+    gt_bbox = gt_centroids_bbox(args.gt_dir)
+    res_bbox = evaluate_greedy_bbox(pred_bbox, gt_bbox, args.threshold)
+    print(f"Results: {res_bbox}\n")
 
     print("3) Hungarian matching on 3D bounding‐box centroids")
-    res_h = evaluate_hungarian(pred_b, gt_b, args.threshold)
-    print(f"Results: {res_h}\n")
+    res_hungarian = evaluate_hungarian(pred_bbox, gt_bbox, args.threshold)
+    print(f"Results: {res_hungarian}\n")
 
 
 if __name__ == "__main__":
     main()
-
