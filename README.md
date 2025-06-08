@@ -1,6 +1,6 @@
 Follow the instructions below to run the entire pipeline. Below is an example to run Pipeline-1 on the L-CAS Dataset using the DCCLA Detector. You can run Pipeline-2 similarly on the JRDB Dataset. We recommend that you use Google Colab to get the GPU access easily.
 
-# Step 1: Clone the whole repository (you can choose later Pipeline-1 or Pipeline-2)
+## Step 1: Clone the whole repository (you can choose later Pipeline-1 or Pipeline-2)
 !git clone https://github.com/sehab1611251/3D-Group-Detection-Using-Distance-Based-Clustering.git
 
 # Step 2: Move into the Pipeline-1 folder 
