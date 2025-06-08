@@ -3,25 +3,25 @@ Follow the instructions below to run the entire pipeline. Below is an example to
 #### Step 1: Clone the whole repository (you can choose later Pipeline-1 or Pipeline-2)
 !git clone https://github.com/sehab1611251/3D-Group-Detection-Using-Distance-Based-Clustering.git
 
-### Step 2: Move into the Pipeline-1 folder 
+#### Step 2: Move into the Pipeline-1 folder 
 %cd 3D-Group-Detection-Using-Distance-Based-Clustering/Pipeline-1
-### List to verify you are in the correct directory
+#### List to verify you are in the correct directory
 !ls
 
-### Step 3: Install both Detector (RPEA and DCCLA) models so that you can use any one later (It will take some time).
-### RPEA
+#### Step 3: Install both Detector (RPEA and DCCLA) models so that you can use any one later (It will take some time).
+#### RPEA
 !bash environment_setup_rpea.sh
-### DCCLA
+#### DCCLA
 !bash environment_setup_dccla.sh
 
-### Step 4: Copy pipeline‐1 scripts into the following location to use the DCCLA Detector
-### copy detection + grouping helper into DCCLA
+#### Step 4: Copy pipeline‐1 scripts into the following location to use the DCCLA Detector
+#### copy detection + grouping helper into DCCLA
 !cp pedestrian_detection_and_grouping_lcas.py /content/DCCLA/
-### copy evaluation & visualization into DCCLA too
+#### copy evaluation & visualization into DCCLA too
 !cp evaluation_on_L-CAS.py /content/DCCLA/
 !cp visualization_L-CAS.py /content/DCCLA/
 
-### Step 5: Run detection + grouping with DCCLA
+#### Step 5: Run detection + grouping with DCCLA
 !/content/py39_env/bin/python /content/DCCLA/pedestrian_detection_and_grouping_lcas.py \
   --model dccla \
   --pcd_zip   "/content/LCAS_20160523_1200_1218_pcd.zip" \
