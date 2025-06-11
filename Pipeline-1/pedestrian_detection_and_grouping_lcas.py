@@ -72,7 +72,7 @@ def parse_args():
         "--group_output_file",
         type=str,
         default="./group_detections.txt",
-        help="Real-time group detections output file (overwritten after filtering)"
+        help="Group detections output file (overwritten after filtering)"
     )
     return parser.parse_args()
 
@@ -170,7 +170,7 @@ def preprocess_labels_and_pcds(labels_folder: str, pcd_folder: str):
 
 
 # detection + grouping (branches on model)
-def run_realtime_grouping(
+def run_grouping(
     model_name: str,
     ckpt_path: str,
     pcd_folder: str,
@@ -226,7 +226,7 @@ def run_realtime_grouping(
         raise ValueError(f"Incorrect model_name '{model_name}'. Must be 'rpea' or 'dccla'.")
 
     pcd_paths = sorted(glob.glob(os.path.join(pcd_folder, "*.pcd")))
-    print(f"[Realtime:{model_name.upper()}] Found {len(pcd_paths)} .pcd files in {pcd_folder}")
+    print(f"[Detector:{model_name.upper()}] Found {len(pcd_paths)} .pcd files in {pcd_folder}")
 
     for pcd_path in pcd_paths:
         frame_name = os.path.splitext(os.path.basename(pcd_path))[0]
@@ -238,7 +238,7 @@ def run_realtime_grouping(
         pcd = o3d.io.read_point_cloud(pcd_path)
         pts = np.asarray(pcd.points)  # shape: (N,3)
         if pts.shape[0] == 0:
-            print(f"[Realtime:{model_name.upper()}] Frame {frame_id} has no points, skipping.")
+            print(f"[Detector:{model_name.upper()}] Frame {frame_id} has no points, skipping.")
             continue
 
         # On L-CAS, both RPEA and DCCLA get raw pts.T → float32
@@ -257,7 +257,7 @@ def run_realtime_grouping(
                 b_np = to_numpy(box)      # [x,y,z,l,w,h,heading]
                 s_val = to_float(score)
                 f_out.write(" ".join(map(str, b_np.tolist() + [s_val])) + "\n")
-        print(f"[Realtime:{model_name.upper()}] Saved per-frame detections: {per_frame_file}")
+        print(f"[Detector:{model_name.upper()}] Saved per-frame detections: {per_frame_file}")
 
         # Append valid detections (l>0,w>0,h>0, score ≥0.30) to det_output_file
         valid_centers = []
@@ -281,7 +281,7 @@ def run_realtime_grouping(
                 valid_scores.append(s_val)
                 filtered_boxes.append((x, y, z, l, w, h, heading))
 
-        print(f"[Realtime:{model_name.upper()}] Frame {frame_id} valid for grouping: {len(valid_centers)} detections")
+        print(f"[Detector:{model_name.upper()}] Frame {frame_id} valid for grouping: {len(valid_centers)} detections")
         if len(valid_centers) < 2:
             if len(valid_centers) == 1:
                 x, y, z, l, w, h, heading = filtered_boxes[0]
@@ -326,10 +326,10 @@ def run_realtime_grouping(
                     f"{l:.4f},{w:.4f},{h:.4f},"
                     f"{heading:.4f},{s_val:.4f},{gid}\n"
                 )
-        print(f"[Realtime:{model_name.upper()}] Frame {frame_id} groups: {len(set(group_ids) - {0})}")
+        print(f"[Detector:{model_name.upper()}] Frame {frame_id} groups: {len(set(group_ids) - {0})}")
 
-    print(f"[Realtime:{model_name.upper()}] Finished raw detections → {det_output_file}")
-    print(f"[Realtime:{model_name.upper()}] Finished real-time grouping → {group_output_file}")
+    print(f"[Detector:{model_name.upper()}] Finished raw detections → {det_output_file}")
+    print(f"[Detector:{model_name.upper()}] Finished grouping → {group_output_file}")
 
 
 # Filtering by Matching Predicted to GT Groups
@@ -454,8 +454,8 @@ def main():
     # detection + grouping
     if args.ckpt_path is None:
         raise ValueError("Please supply --ckpt_path to the checkpoint for your chosen model.")
-    print(f"\n=== STEP 4: Real-Time {args.model.upper()} Detection + Grouping ===")
-    run_realtime_grouping(
+    print(f"\n=== Detector {args.model.upper()} Detection + Grouping ===")
+    run_grouping(
         model_name=args.model,
         ckpt_path=args.ckpt_path,
         pcd_folder=actual_pcd_dir,
@@ -473,7 +473,8 @@ def main():
         distance_threshold=args.distance_threshold,
     )
 
-    print("\n[All Done] group_detections.txt has been updated.")
+    print("\n[All Done!] group_detections.txt has been updated.")
 
 if __name__ == "__main__":
     main()
+
