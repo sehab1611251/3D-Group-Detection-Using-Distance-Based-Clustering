@@ -396,7 +396,7 @@ def main():
     group_txt = args.group_output_file
     temp_dir = args.output_dir
 
-    # STEP B: Generate GT.txt
+    # Generate GT.txt
     generate_gt(args.json_path, gt_txt)
 
     # detection + grouping
