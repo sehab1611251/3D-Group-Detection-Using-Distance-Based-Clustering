@@ -333,7 +333,7 @@ def run_realtime_grouping(
 
 
 # Filtering by Matching Predicted to GT Groups
-def greedy_filter_groups_inplace(
+def filter_groups_inplace(
     group_file: str,
     gt_folder: str,
     distance_threshold: float = 1.5
@@ -467,7 +467,7 @@ def main():
 
     # GT-based filtering
     print("\n===GT-Based Filtering===")
-    greedy_filter_groups_inplace(
+    filter_groups_inplace(
         group_file=args.group_output_file,
         gt_folder=actual_labels_dir,
         distance_threshold=args.distance_threshold,
