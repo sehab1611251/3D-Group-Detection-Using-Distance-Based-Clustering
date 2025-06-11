@@ -3,6 +3,7 @@
 #### Step 1: Clone the whole repository (you can choose later Pipeline-1 or Pipeline-2)
 ```bash
 !git clone https://github.com/sehab1611251/3D-Group-Detection-Using-Distance-Based-Clustering.git
+```
 
 #### Step 2: Move into the Pipeline-1 folder 
 %cd 3D-Group-Detection-Using-Distance-Based-Clustering/Pipeline-1
