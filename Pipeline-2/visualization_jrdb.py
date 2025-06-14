@@ -586,7 +586,7 @@ def parse_args():
                         help="Output dir for DCCLA frames")
     parser.add_argument("--out_pred", required=True,
                         help="Output dir for predicted group frames")
-    parser.add_argument("--fps", type=float, default=5.0,
+    parser.add_argument("--fps", type=float, default=30.0,
                         help="Frames per second for the videos")
     return parser.parse_args()
 
