@@ -141,7 +141,7 @@ def visualize_gt_individual(pcd_dir: str, gt_file: str, output_dir: str):
     display.start()
 
     video_path = "/content/gt_individuals.mp4"
-    writer = open_video_writer(video_path, fps=5.0, width=640, height=360)
+    writer = open_video_writer(video_path, fps=30.0, width=640, height=360)
 
     for pcd_file in pcd_files:
         base = os.path.splitext(os.path.basename(pcd_file))[0]
@@ -281,7 +281,7 @@ def visualize_gt_groups(pcd_dir: str, gt_file: str, output_dir: str):
     display.start()
 
     video_path = "/content/gt_groups.mp4"
-    writer = open_video_writer(video_path, fps=5.0, width=640, height=360)
+    writer = open_video_writer(video_path, fps=30.0, width=640, height=360)
 
     # Palette for up to 5 GT groups
     palette_hex = ["#FF0000", "#0000FF", "#008000", "#FFA500", "#800080"]
@@ -416,7 +416,7 @@ def visualize_rpea(pcd_dir: str, rpea_file: str, output_dir: str):
     display.start()
 
     video_path = "/content/rpea.mp4"
-    writer = open_video_writer(video_path, fps=5.0, width=640, height=360)
+    writer = open_video_writer(video_path, fps=30.0, width=640, height=360)
 
     for pcd_file in pcd_files:
         base = os.path.splitext(os.path.basename(pcd_file))[0]
@@ -571,7 +571,7 @@ def visualize_pred_groups(pcd_dir: str, pred_file: str, output_dir: str):
     display.start()
 
     video_path = "/content/pred_groups.mp4"
-    writer = open_video_writer(video_path, fps=5.0, width=640, height=360)
+    writer = open_video_writer(video_path, fps=30.0, width=640, height=360)
 
     palette = [
         "#FF0000", "#0000FF", "#008000", "#FFA500", "#800080",
