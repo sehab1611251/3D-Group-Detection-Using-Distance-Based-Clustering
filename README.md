@@ -1,4 +1,4 @@
-#### Follow the instructions below to run the entire pipeline. Below is an example to run Pipeline-1 on the L-CAS Dataset using the DCCLA Detector. You can run Pipeline-2 similarly on the JRDB Dataset. We recommend that you use Google Colab to get the GPU access easily.
+#### Follow the instructions below to run the entire pipeline. Below is an example to run Pipeline-1 on the [L-CAS Dataset](https://lcas.lincoln.ac.uk/wp/research/data-sets-software/l-cas-3d-point-cloud-people-dataset/#:~:text=A%20lot%20of%20challenges%20have,people%2C%20and%20crowds%20of%20people) using the DCCLA Detector. You can run Pipeline-2 similarly on the JRDB Dataset. We recommend that you use Google Colab to get the GPU access easily.
 
 #### Step 1: Clone the whole repository (you can choose later Pipeline-1 or Pipeline-2)
 ```bash
